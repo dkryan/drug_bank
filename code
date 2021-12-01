@@ -1,0 +1,67 @@
+import csv
+from bs4 import BeautifulSoup
+import numpy as np
+import os
+import pandas as pd
+import pickle
+import scipy as sp
+import selenium
+import time
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+
+# Random Time Delays For Sleeps
+from random import randint
+from random import shuffle
+from time import sleep
+
+# Downloading libraries
+import requests, zipfile
+from io import StringIO
+
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+
+complete_urls = [] 
+
+for i in range(1, 110): 
+    driver.get(f"https://go.drugbank.com/drugs?approved=1&c=name&d=up&page={i}")
+    elems = driver.find_elements_by_xpath("//a[@href]")
+
+    urls = [] 
+
+    for elem in elems:
+        link = str(elem.get_attribute("href"))
+        if '/drugs/DB' in link: 
+            print(link)
+            urls.append(link)
+            
+    complete_urls.append(urls)
+    
+drug_urls = [item for sublist in complete_urls for item in sublist]    
+    
+drug_targets = []
+
+for i in driver.find_elements_by_xpath("""//*[@id="drug-moa-target-table"]/tbody"""): 
+    targets = (str(i.text).split('\n'))
+    
+for target in targets: 
+    if target[0]=='A': 
+        drug_targets.append(target[1:])
+
+
+#all uniprots 
+elems = driver.find_elements_by_xpath("//a[@href]")
+for elem in elems:
+    element = str(elem.get_attribute("href"))
+    if 'http://www.uniprot.org/uniprot/' in element: 
+        print(element)
+    else: 
+        pass
